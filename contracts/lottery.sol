@@ -47,12 +47,12 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
     /*  Enums */
 
     constructor(
-        uint256 entranceFee,
         address vrfCoordinatorV2,
-        bytes32 gasLane,
         uint64 subscriptionId,
-        uint32 callbackGasLimit,
-        uint256 interval
+        bytes32 gasLane,
+        uint256 entranceFee,
+        uint256 interval,
+        uint32 callbackGasLimit
     ) VRFConsumerBaseV2(vrfCoordinatorV2) {
         i_entranceFee = entranceFee;
         i_VRFCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
