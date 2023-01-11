@@ -41,7 +41,7 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
     /* Events */
     event Lottery_enter(address indexed player);
-    event requestedLotteryWinner(uint256 indexed request);
+    event requestedLotteryWinner(uint256 indexed requestId);
     event WinnerPicked(address indexed winner);
 
     /*  Enums */

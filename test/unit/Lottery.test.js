@@ -107,7 +107,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                 const lotteryState = await Lottery.getLotteryState();
                 const RequestId = txReceipt.events[1].args.requestId;
                 assert(lotteryState.toString() == "1");
-                // assert(RequestId.toNumber() > 0);
+                assert(RequestId.toNumber() > 0);
             })
         })
         describe("fullfillRandomWords", () => {
@@ -135,13 +135,16 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                     Lottery.once("WinnerPicked", async () => {
                         try {
                             const recentWinner = await Lottery.getRecentWinner();
-                            console.log(recentWinner);
                             const lotteryState = await Lottery.getLotteryState();
                             const endingTimeStamp = await Lottery.getLastTimeStamp();
                             const numPlayers = await Lottery.getNumberOfPlayers();
+                            const winnerEndingBalance = await accounts[1].getBalance();
+                            assert.equal(recentWinner, accounts[1].address);
                             assert.equal(numPlayers.toString(), "0");
                             assert.equal(lotteryState.toString(), "0");
                             assert(endingTimeStamp > startingTimeStamp);
+
+                            assert.equal(winnerEndingBalance.toString(), winnerStartingBalance.add(LotteryEntranceFee.mul(additionalEntrants).add(LotteryEntranceFee)).toString());
                             resolve();
                         } catch (e) {
                             reject(e);
@@ -149,7 +152,8 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                     })
                     const tx = await Lottery.performUpkeep("0x");
                     const txReceipt = await tx.wait(1);
-                    await vrfCoordinatorV2Mock.fulfillRandomWords(txReceipt.events[1].requestId, Lottery.address);
+                    const winnerStartingBalance = await accounts[1].getBalance();
+                    await vrfCoordinatorV2Mock.fulfillRandomWords(txReceipt.events[1].args.requestId, Lottery.address);
                 })
             })
 

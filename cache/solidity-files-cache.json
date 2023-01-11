@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/prince/ether-projects/smart-contract-lottery/contracts/lottery.sol": {
-      "lastModificationDate": 1672327719187,
-      "contentHash": "ecf773caebd3c6923ce8751c5b11687d",
+      "lastModificationDate": 1672678498010,
+      "contentHash": "e842441aa70592e15d40304917c83fea",
       "sourceName": "contracts/lottery.sol",
       "solcConfig": {
         "version": "0.8.7",
